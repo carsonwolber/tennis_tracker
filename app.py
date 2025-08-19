@@ -19,4 +19,35 @@ scheduler.start()
 
 mail = Mail(app)
 
+def check_for_opening():
+  # see: https://classes.cornell.edu/content/FA25/api-details
+  url = "https://classes.cornell.edu/api/2.0/search/classes.json"
+  # PE1446 11:30 
+  crseId = 10155
+  params = {
+      'roster': 'FA25',
+      'subject': 'PE'
+  }
 
+  try:
+    response = request.get(url, params=params)
+    data = response.json()
+    all_classes = data.get('data', {}).get('classes', [])
+        
+    tennis_data = None
+    for cls in all_classes:
+        if cls.get('crseId') == crseId:
+            tennis_data = cls
+            break
+    if tennis_data: 
+       if tennis_data["openStatus"] == "O":
+          send_open_notif()
+
+
+  except Exception as e:
+    raise e
+
+
+
+def send_open_notif():
+   pass
