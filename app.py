@@ -63,7 +63,15 @@ def send_open_notif():
     print(f"failed to send with error: {e}")
 
 
-   
+def send_daily_msg():
+  msg = Message('daily tennis tracker check in',
+              sender='carson.tennis.tracker@gmail.com',
+              recipients=['ctw54@cornell.edu'],
+              body='message alerts are still up!')
+  try:
+    mail.send(msg)
+  except Exception as e:
+    print(f"failed to send with error: {e}")
 
 
 def create_app():
