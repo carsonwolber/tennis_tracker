@@ -1,5 +1,4 @@
-from flask import Flask, request, jsonify
-import json
+from flask import Flask
 import requests
 from flask_mail import Mail, Message
 from apscheduler.schedulers.background import BackgroundScheduler
