@@ -5,7 +5,9 @@ from flask_mail import Mail, Message
 from apscheduler.schedulers.background import BackgroundScheduler
 from apscheduler.triggers.cron import CronTrigger
 import os
+from dotenv import load_dotenv
 
+load_dotenv()
 app = Flask(__name__)
 
 app.config['MAIL_SERVER'] = 'smtp.gmail.com'
@@ -51,7 +53,18 @@ def check_for_opening():
 
 
 def send_open_notif():
-   pass
+  msg = Message('PE 1446 is open!',
+                sender='carson.tennis.tracker@gmail.com',
+                recipients=['ctw54@cornell.edu'],
+                body='go enroll!')
+  try:
+    mail.send(msg)
+  except Exception as e:
+    print(f"failed to send with error: {e}")
+
+
+   
+
 
 def create_app():
    return app
@@ -59,5 +72,4 @@ def create_app():
 if __name__ =='__main__':
    app = create_app()
    with app.app_context():
-      check_for_opening()
       app.run(port=3000)
