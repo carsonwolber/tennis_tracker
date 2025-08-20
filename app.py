@@ -22,6 +22,7 @@ scheduler.start()
 
 mail = Mail(app)
 
+
 def check_for_opening():
   # see: https://classes.cornell.edu/content/FA25/api-details
   url = "https://classes.cornell.edu/api/2.0/search/classes.json"
@@ -51,7 +52,6 @@ def check_for_opening():
     raise e
 
 
-
 def send_open_notif():
   msg = Message('PE 1446 is open!',
                 sender='carson.tennis.tracker@gmail.com',
@@ -73,6 +73,19 @@ def send_daily_msg():
   except Exception as e:
     print(f"failed to send with error: {e}")
 
+scheduler.add_job(
+   func=check_for_opening,
+   trigger=CronTrigger(minute='*/15'),
+   name="10 minute check",
+   replace_existing=True,
+)
+
+scheduler.add_job(
+   func=send_daily_msg,
+   trigger=CronTrigger(hour=22, minute=30),
+   name="daily check",
+   replace_existing=True
+)
 
 def create_app():
    return app
